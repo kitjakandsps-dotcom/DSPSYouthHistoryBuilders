@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>ยุวชนย้อนรอย | YILH</title>
+  <meta name="description" content="ยุวชนย้อนรอย (Youth Innovator for Learning History: YILH) แพลตฟอร์มสมรภูมิความรู้คู่แผ่นดิน แหล่งเรียนรู้ ข้อมูลห้อง และวิดีโอประวัติศาสตร์และพระมหากษัตริย์ไทย">
+  <meta name="theme-color" content="#4b5b35">
+
+  <!-- ไอคอนบนแท็บเบราว์เซอร์ และเมื่อบันทึกไว้บนหน้าจอโทรศัพท์ (อัปโหลดไฟล์ logo.png ไว้ที่เดียวกับไฟล์นี้) -->
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="ยุวชนย้อนรอย">
+
+  <!-- ภาพตัวอย่างเวลาแชร์ลิงก์ใน LINE / Facebook -->
+  <meta property="og:title" content="ยุวชนย้อนรอย | YILH">
+  <meta property="og:description" content="แพลตฟอร์มสมรภูมิความรู้คู่แผ่นดิน">
+  <meta property="og:image" content="logo.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@700;800&family=Sarabun:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root { --paper: #efe4c8; --paper-3: #f7f0dc; --ink-2: #5a5436; --army: #4b5b35; --army-d: #2e3a20; --gold: #a88a45; --gold-d: #7b5f1f; --g: #1f7a3f; --y: #e9bf2e; }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: var(--paper); }
+    body { overflow: hidden; font-family: 'Sarabun', system-ui, sans-serif; color: var(--army-d); }
+
+    #app {
+      position: fixed; inset: 0; width: 100%; height: 100%; height: 100dvh;
+      border: 0; display: block; background: var(--paper);
+      opacity: 0; transition: opacity .25s ease;
+    }
+    #app.ready { opacity: 1; }
+
+    /* หน้ารอระหว่างเปิดระบบจาก Google Apps Script (ใช้เวลาประมาณ 2-5 วินาที) */
+    .wait {
+      position: fixed; inset: 0; display: grid; place-items: center; padding: 24px;
+      background: var(--paper); transition: opacity .25s ease, visibility .25s;
+    }
+    .wait::before { content: ""; position: absolute; inset: 0 0 auto; height: 7px; background: linear-gradient(var(--g) 0 4px, var(--y) 4px 7px); }
+    .wait.gone { opacity: 0; visibility: hidden; }
+    .wait-box { width: min(360px, 100%); text-align: center; }
+    .mark { width: 132px; height: 132px; margin: 0 auto; display: grid; place-items: center; }
+    .mark img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(3px 4px 0 rgba(75, 91, 53, .18)); }
+    .mark.txt {
+      width: 96px; height: 96px; border-radius: 50%; background: var(--paper-3);
+      border: 3px solid var(--army); box-shadow: 0 0 0 4px var(--paper-3), 0 0 0 6px var(--gold);
+      font: 800 20px/1 'Noto Serif Thai', serif; color: var(--army-d);
+    }
+    .wait h1 { margin: 16px 0 2px; font: 800 26px/1.3 'Noto Serif Thai', serif; color: var(--army-d); }
+    .wait .en b { display: block; margin-top: 2px; font-size: 13px; font-weight: 700; letter-spacing: .32em; color: var(--army-d); }
+    .wait .en { margin: 0 0 6px; font-size: clamp(9.5px, 2.9vw, 11px); letter-spacing: .1em; white-space: nowrap; color: var(--gold-d); font-weight: 500; }
+    .wait .sub { margin: 0 0 10px; font-size: 14px; color: var(--army); }
+    .wait p { margin: 0; font-size: 15px; line-height: 1.7; color: var(--ink-2); }
+    .bar { position: relative; height: 3px; margin: 22px auto 0; width: 70%; overflow: hidden; background: rgba(75, 91, 53, .2); }
+    .bar::after { content: ""; position: absolute; inset: 0 auto 0 0; width: 35%; background: var(--army); animation: slide 1.3s ease-in-out infinite; }
+    @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(290%); } }
+    @media (prefers-reduced-motion: reduce) { .bar::after { animation: none; width: 100%; opacity: .5; } }
+    .wait a { color: var(--g); font-weight: 500; text-underline-offset: 3px; }
+    .slow { margin-top: 16px !important; }
+    .setup { margin-top: 18px !important; padding: 12px 14px; border: 1.5px solid var(--army); background: var(--paper-3); text-align: left; }
+    .setup code { padding: 1px 6px; background: rgba(75, 91, 53, .12); font-size: 13px; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+  <div class="wait" id="wait" role="status" aria-live="polite">
+    <div class="wait-box">
+      <div class="mark" id="mark" aria-hidden="true"><img src="logo.png" alt="" id="markImg"></div>
+      <h1>ยุวชนย้อนรอย</h1>
+      <p class="en">YOUTH INNOVATOR FOR LEARNING HISTORY<b>YILH</b></p>
+      <p class="sub">แพลตฟอร์มสมรภูมิความรู้คู่แผ่นดิน</p>
+      <p id="waitMsg">กำลังเปิดแฟ้มเอกสาร…</p>
+      <div class="bar" id="bar" aria-hidden="true"></div>
+      <p class="slow" id="slow" hidden>ใช้เวลานานกว่าปกติ ถ้าหน้ายังไม่ขึ้น <a href="#" id="openDirect" target="_blank" rel="noopener">เปิดในแท็บใหม่</a></p>
+    </div>
+  </div>
+
+  <iframe id="app" title="ยุวชนย้อนรอย"
+    allow="fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-write" allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+  <script>
+    /* ==========================================================================
+     * ตั้งค่า: วางลิงก์เว็บแอปยุวชนย้อนรอยจาก Apps Script (ลงท้ายด้วย /exec) ระหว่างเครื่องหมาย ' '
+     * ลิงก์อยู่ที่ ทำให้ใช้งานได้ > จัดการการทำให้ใช้งานได้ > URL ของเว็บแอป
+     * ========================================================================== */
+    var APP_URL = 'https://script.google.com/macros/s/AKfycbzOscCS6JDv2xRlynAko7_8Bf5VfdnV93rpTu6-idA4DiqP6kgCOFhZ-wf-FGaOGlWYWw/exec';
+
+    (function () {
+      var frame = document.getElementById('app');
+      var wait = document.getElementById('wait');
+
+      // ถ้ายังไม่ได้อัปโหลด logo.png ให้แสดงตัวอักษร YILH แทน
+      var markImg = document.getElementById('markImg');
+      function noLogo() { var m = document.getElementById('mark'); m.textContent = 'YILH'; m.classList.add('txt'); }
+      if (markImg.complete && !markImg.naturalWidth) noLogo();
+      else markImg.addEventListener('error', noLogo);
+
+      var ok = /^https:\/\/script\.google\.com\/(a\/[^/]+\/)?macros\/s\/[\w-]{20,}\/exec\/?$/.test(APP_URL);
+      if (!ok) {
+        document.getElementById('waitMsg').textContent = 'ยังไม่ได้ตั้งค่าลิงก์ระบบ';
+        document.getElementById('bar').hidden = true;
+        var p = document.createElement('p');
+        p.className = 'setup';
+        p.innerHTML = 'แก้ไฟล์ <code>index.html</code> ใน GitHub แล้ววางลิงก์เว็บแอปที่ลงท้ายด้วย <code>/exec</code> ในบรรทัด <code>var APP_URL</code>';
+        document.querySelector('.wait-box').appendChild(p);
+        return;
+      }
+
+      var src = APP_URL + location.search;
+      document.getElementById('openDirect').href = src;
+
+      frame.addEventListener('load', function () {
+        frame.classList.add('ready');
+        wait.classList.add('gone');
+        try { frame.focus(); } catch (e) {}
+      });
+      setTimeout(function () { document.getElementById('slow').hidden = false; }, 12000);
+      frame.src = src;
+    })();
+  </script>
+</body>
+</html>
